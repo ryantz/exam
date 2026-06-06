@@ -10,6 +10,7 @@ void	parse_grid_to_result(char **grid, char ***result, int n);
 void	print_arr(char **arr, int n);
 size_t	ft_strlen(char *str);
 size_t	ft_arrlen(char **arr);
+void	free_all(char **arr);
 
 int	main(int argc, char **argv)
 {
@@ -36,11 +37,18 @@ char	**init_grid(char ***grid, int n)
 	int	j;
 
 	*grid = malloc((n + 1) * sizeof(char *));
+	if (!*grid)
+		return (NULL);
 	(*grid)[n] = NULL;
 	i = 0;
 	while (i < n)
 	{
 		(*grid)[i] = malloc((n + 1) * sizeof(char));
+		if (!(*grid)[i])
+		{
+			free_all(*grid);
+			return (NULL);
+		}
 		(*grid)[i][n] = 0;
 		j = 0;
 		while (j < n)
@@ -62,14 +70,26 @@ char	**init_and_increment_result(char ***result, int n)
 	if (len == 0)
 	{
 		*result = malloc((1 + 1) * sizeof(char *));
+		if (!*result)
+			return (NULL);
 		(*result)[1] = NULL;
 		(*result)[0] = malloc((n + 1) * sizeof(char));
+		if (!(*result)[0])
+		{
+			free_all(*result);
+			return (NULL);
+		}
 		(*result)[0][n] = 0;
 		return (*result);
 	}
 	tmp = realloc(*result, ((len + 1 + 1) * sizeof(char *)));
 	*result = tmp;
 	(*result)[len] = malloc((n + 1) * sizeof(char));
+	if (!(*result)[len])
+	{
+		free_all(*result);
+		return (NULL);
+	}
 	(*result)[len + 1] = NULL;
 	return (*result);
 }
@@ -191,4 +211,19 @@ void	print_arr(char **arr, int n)
 		write(1, "\n", 1);
 		i++;
 	}
+}
+
+void	free_all(char **arr)
+{
+	size_t	len;
+	size_t	i;
+
+	len = ft_arrlen(arr);
+	i = 0;
+	while (i < len)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
