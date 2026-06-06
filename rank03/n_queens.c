@@ -27,7 +27,9 @@ int	main(int argc, char **argv)
 	n = atoi(argv[1]);
 	init_grid(&grid, n);
 	solve(&result, grid, 0, n);
+	free_all(grid);
 	print_arr(result, n);
+	free_all(result);
 	return (0);
 }
 
