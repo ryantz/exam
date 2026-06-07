@@ -10,6 +10,7 @@ void	parse_grid_to_result(char **grid, char ***result, int n);
 void	print_arr(char **arr, int n);
 size_t	ft_strlen(char *str);
 size_t	ft_arrlen(char **arr);
+int		check_input(char *input);
 void	free_all(char **arr);
 
 int	main(int argc, char **argv)
@@ -23,6 +24,11 @@ int	main(int argc, char **argv)
 		perror("Wrong arg count");
 		return (1);
 	}
+	if (check_input(argv[1]) == 0)
+	{
+		perror("Wrong arg type");
+		return (1);
+	}
 	result = NULL;
 	n = atoi(argv[1]);
 	init_grid(&grid, n);
@@ -31,6 +37,20 @@ int	main(int argc, char **argv)
 	print_arr(result, n);
 	free_all(result);
 	return (0);
+}
+
+int	check_input(char *input)
+{
+	int	i;
+	
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] < 48 || input[i] > 57)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	**init_grid(char ***grid, int n)
