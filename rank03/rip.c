@@ -16,6 +16,12 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
+void	solve(char *input, int val)
+{
+	if (val == 0)
+		puts(input);
+}
+
 int	check_input(char *input)
 {
 	int	i;
@@ -40,9 +46,9 @@ int	scan_input(char *input)
 	while (input[i])
 	{
 		if (input[i] == '(')
-			val += 1;
+			val++;
 		else
-			val -= 1;
+			val--;
 		i++;
 	}
 	return (val);
